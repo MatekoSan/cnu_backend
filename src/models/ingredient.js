@@ -13,7 +13,7 @@ const ingredient = (sequelize) => {
       },
     },
     unit: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(10),
     },
   });
 

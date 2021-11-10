@@ -2,21 +2,32 @@ import Sequelize from "sequelize";
 
 import recipe from "./recipe";
 import ingredient from "./ingredient";
+import category from "./category";
 
 function applyRelations(sequelize) {
-  const { ingredient, recipe } = sequelize.models;
+  const { ingredient, recipe, category } = sequelize.models;
 
-  ingredient.belongsToMany(recipe, { through: "recipeIngredients" });
-  recipe.belongsToMany(ingredient, { through: "recipeIngredients" });
+  ingredient.belongsToMany(recipe, {
+    through: "recipeIngredients",
+  });
+  recipe.belongsToMany(ingredient, {
+    through: "recipeIngredients",
+  });
+  category.belongsToMany(recipe, {
+    through: "categoryRecipes",
+  });
+  recipe.belongsToMany(category, {
+    through: "categoryRecipes",
+  });
 }
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: process.env.DATABASE_PATH,
+  storage: "db.sqlite",
   logging: false,
 });
 
-const models = [recipe, ingredient];
+const models = [recipe, ingredient, category];
 
 models.forEach((model) => model(sequelize));
 
